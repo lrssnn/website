@@ -19,6 +19,8 @@ var diffs = new Array(MEM);
 
 
 function draw() {
+  stroke(0);
+  ellipse(width/2, height/2, 100, 100);
   //translate(R, R);
   // Drop 100 point on the thing
   for(var i = 0; i < 1000000; i++){
