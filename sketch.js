@@ -9,11 +9,12 @@ var MAX_MEM = 10000;
 
 function setup(){
   createCanvas(windowWidth, windowHeight);
-  background(0);
+  colorMode(HSB);
+  background(0, 0, 0);
   noFill();
   strokeWeight(1);
-  stroke(255);
-  frameRate(-1);
+  stroke(0, 0, 255);
+  frameRate(600);
 }
 
 var colour = 0;
@@ -23,14 +24,16 @@ var speed = 0.75;
 function draw() {
 
   background(0);
-  fill(255);
+  fill(0, 0, 255);
   strokeWeight(0.1);
-  text(mem_index, 0, 10);
+  text(frameRate(), 0, 10); 
+  text(frameCount, 0, 20);
+  text(speed, 0, 30);
   noFill();
   translate(width/2 , height/ 2);
 
   scale(500/t);
-
+  //scale(100/t);
 
   var last_t = t - speed;
   var next_line = {
@@ -38,7 +41,10 @@ function draw() {
     y1 : last_t*cos(last_t),
     x2 : t * sin(t),
     y2 : t * cos(t),
+    colour: colour,
   };
+
+  colour = (colour + 0.1) % 255;
 
   lines[mem_index] = next_line;
   mem_index = (mem_index + 1) % MAX_MEM;
@@ -48,17 +54,11 @@ function draw() {
     strokeWeight(i/MAX_MEM);
     var l = lines[m];
     if(l != undefined){
+      stroke(l.colour, 255, 255);
       line(l.x1, l.y1, l.x2, l.y2);
     }
   }
 
-  // lines.forEach((l,index) => {
-  //   if(l != null){
-  //     strokeWeight(index/MAX_MEM)
-  //     line(l.x1, l.y1, l.x2, l.y2);
-  //   }
-  // })
-  
   t += speed;
   speed = max(0, speed + (random() - 0.5)/100);
 
